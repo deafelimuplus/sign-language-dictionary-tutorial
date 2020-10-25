@@ -6,10 +6,12 @@ const PAGE_ACCESS_TOKEN = functions.config().deptutorial.page_access_token;
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
+/*
  exports.helloWorld = functions.https.onRequest((request, response) => {
    functions.logger.info("Hello logs!", {structuredData: true});
    response.send("Hello from Firebase!");
  });
+ */
 
  exports.webhook_messenger = functions.https.onRequest((req,res) => {
     const body = req.body;
@@ -54,14 +56,16 @@ const PAGE_ACCESS_TOKEN = functions.config().deptutorial.page_access_token;
                             // Return a '200 OK' response to all requests
                             //return res.status(200).send('EVENT_RECEIVED');
 
-                            let response={
-                                text:`Received your message: ${messaging.message.text}`
-                            };
-
                             if(messaging.message.text){
-                                return messenger.callSendAPI(PAGE_ACCESS_TOKEN,sender_psid,response).then(() => {
+
+                                return messenger.signLanguageDictionary(PAGE_ACCESS_TOKEN, sender_psid, messaging.message.text).then(json => {
+                                    console.log('webhook_messenger:signLanguageDictionary', JSON.stringify(json));
+                                    return res.end();
+                                }).catch(error => {
+                                    console.error('webhook_messenger:signLanguageDictionary', error);
                                     return res.end();
                                 });
+
                             }
 
                             response={
@@ -69,6 +73,9 @@ const PAGE_ACCESS_TOKEN = functions.config().deptutorial.page_access_token;
                             };
                     
                             return messenger.callSendAPI(PAGE_ACCESS_TOKEN,sender_psid,response).then(() => {
+                                return res.end();
+                            }).catch(error => {
+                                console.error('webhook_messenger:callSendAPI', error);
                                 return res.end();
                             });
                     

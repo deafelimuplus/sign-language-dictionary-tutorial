@@ -6,11 +6,11 @@ In this tutorial, we will use [**Messenger Platform**](https://developers.facebo
 ![Sign Language Dictionary Demo](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/demoSignLanguageDictionary.gif)
 
 ## Prerequisties
-* Basic knowledge of Node.js
+* Basic knowledge of Node.js and Javascript languages
+* Knowledge of [Cloud Functions for Firebase](https://firebase.google.com/docs/functions) and [Firebase CLI](https://firebase.google.com/docs/cli)
 * Have or Create Firebase project
 * Create a [Facebook page](https://www.facebook.com/pages/create)
 * Create [Facebook Developer Account](https://developers.facebook.com)
-* Need Messenger app
 * Download and install [Visual Studio Code](https://code.visualstudio.com/)
 * Download [Node.js and npm](https://nodejs.org/en/)
 * Install [yarn](https://yarnpkg.com/getting-started/install)
@@ -32,9 +32,9 @@ npm -v
 ```
 npm install -g yarn
 ```
-5. To use Functions, you need to install Firebase command line tools using yarn
+5. You can install the **Firebase CLI**(Command Line) using **yarn**. 
 
-    Install Firebase tools: `$ yarn global add firebase-tools`
+    To download and install the **Firebase CLI**, run the following command: `$ yarn global add firebase-tools`
 
 ### Step 2: Create and Deploy your first Firebase Cloud Function
 

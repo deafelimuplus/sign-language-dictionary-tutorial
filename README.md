@@ -1,7 +1,7 @@
-# Build Sign Language Dictionary Bot for Facebook Messenger using Messenger API in Node.js
+# Building Sign Language Dictionary Bot for Facebook Messenger in Node.js
 
 ## Overview
-In this tutorial, we will be building Sign Language Dictionary Bot using Messenger API in Node.js. It enables users to ask a word for sign language or definition of the word. You maybe check and try it out [Sign Language Dictionary Bot](https://www.messenger.com/t/SLDictionaryBot) on Facebook Messenger. See the below demo
+In this tutorial, we will use Messenger API to build Sign Language Dictionary Bot in Node.js. It enables users to ask a word for sign language or definition of the word. You can check and try it out [Sign Language Dictionary Bot](https://www.messenger.com/t/SLDictionaryBot) on Facebook Messenger. See the below demo
 
 ![Sign Language Dictionary Demo](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/demoSignLanguageDictionary.gif)
 
@@ -37,16 +37,17 @@ npm install -g yarn
 
 ### Step 2: Create and Deploy your first Firebase Cloud Function
 
-1. Open a terminal window and navigate to the directory for your code:
+1. Open a terminal window and navigate to the directory for your code
 
-        Initiate your project `$ firebase init`
+	To initiate your project `$ firebase init`
         
 2. Select **Functions**
 3. Select **Create a new project**
 4. Select **JavaScript** language
 5. Enter **y** to *Do you want to use ESLint to catch probably bugs and enfore style?*
 6. Enter **y** to *Do you want to install dependencies with npm now?*
-7. Using Visual Studio Code, open index.js in functions folder and then uncomment the following lines
+7. Using Visual Studio Code, to open **index.js** in functions folder and then uncomment the following lines
+
 ```node.js
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
@@ -69,7 +70,7 @@ Function URL (helloWorld): https://us-central1-MY_PROJECT_NAME.cloudfunctions.ne
       You see the message *Hello from Firebase!*
 
 ### Step 4: Add the webhook_messenger() function
-   This function is to set up a webhook that supports the Messenger Platform's required webhook verification step, and is able to accept webhook events. For more information on **setting up your webhook**, follow [this link](https://developers.facebook.com/docs/messenger-platform/getting-started/webhook-setup)
+   We add the webhook_messenger() function to set up a webhook that supports the Messenger Platform's required webhook verification step, and is able to accept webhook events. For more information on **setting up your webhook**, follow [this link](https://developers.facebook.com/docs/messenger-platform/getting-started/webhook-setup)
 
 1. For adding your webhook endpoint, add these lines to index.js
 
@@ -155,7 +156,7 @@ This code creates a **webhook_messenger** endpoint that accepts **GET** requests
 
 The verification process looks like this:
 1. You create a verify token. This is a random sting of your choosing, hardcoded into your webhook.
-2. You copy and paste your verify token to the Messenger Platform when you subscribe your webhook to receive webhook events for a cloud function.
+2. You copy and paste the verify token onto the Messenger Platform when you subscribe your webhook to receive webhook events for a cloud function.
 3. The Messenger Platform sends a **GET** request to your webhook with the token in the **hub.verify** parameter of the query string.
 4. You verify the token sent matches your verify token, and respond with **hub.challenge** parameter from the request.
 5. The Messenger Platform subscribes your webhook to the cloud function.
@@ -171,7 +172,7 @@ Function URL (webhook_messenger): https://us-central1-MY_PROJECT_NAME.cloudfunct
 ```
 ### Step 6: Test your webhook
 
-1. Run this command in your terminal or Visual Studio Code to test your webhook verification into this cURL request:
+1. Run this command in your terminal or Visual Studio Code. You test your webhook verification into this cURL request:
 ```
 $ curl -X GET "https://us-central1-MY_PROJECT_NAME.cloudfunctions.net/webhook_messenger?hub.verify_token=<YOUR_VERIFY_TOKEN>&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe"
 ```
@@ -208,7 +209,7 @@ Follow the steps [set up your Facebook App](https://developers.facebook.com/docs
 ![Callback URL](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/editCallbackURL.png)
 10. In the **Access Tokens** section, click **Add or Remove Pages** button and select a page you want to subscribe your app to. 
 ![Add or Remove Pages](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/AddOrRemovePages.png)
-11. Click **Generate Token**. *Make sure to copy and save the access token, it is needed to send messages using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api/).
+11. Click **Generate Token**. *Make sure to copy and save the access token, we need it to send messages using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api/).
 12. Add the copied access token to index.js
 ```node.js
 exports.webhook_messenger = functions.https.onRequest((req,res) => {
@@ -232,7 +233,7 @@ To test that your app set up was successful, go to **Messenger** and send a mess
 
 ### Step 10: Build Sign Language Dictionary Bot
 
-1. To receive a text from Messenger, we update the code in **index.js** to receive and pass a text message only to **messenger.callSendAPI()** function. 
+1. To receive a message from Messenger, we update the code in **index.js** to call **messenger.callSendAPI()** function that able to receive and pass a text message only. 
 
 ```node.js
 .
@@ -310,8 +311,8 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
 
 ![Test to send a message on Messenger](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/testSendMessenger.gif)
 
-6. Now you have seen how communications with Messenger work, write a code for looking up a word for sign language and then send a video to the [**Messenger app**](https://www.messenger.com/).
-	* Writing a code that sends a video if the word is found in the dictionary. If the word is not found, send a text.
+6. Now you have seen how communications with Messenger work. You will write a code that enable sign language dictionary to look up a word for sign language and then send a video to the [**Messenger app**](https://www.messenger.com/).
+	* Writing a code that sends a video if the word is found in the dictionary. If the word is not in the dictionary, send a text.
 	* In **messenger.js** file, you will write your own code **how to search and send a video url to Facebook Messenger**. In the below code, it sends a video url.
 	
 	```node.js
@@ -378,4 +379,4 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
 	
 	![DEP tutorial Demo](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/demoDepTutorial.gif)
 	
-### Congratulations!! You have just finished building your first Sign Language Dictionary on Facebook Messenger!
+### Congratulations!! You have finished building your first Sign Language Dictionary on Facebook Messenger!

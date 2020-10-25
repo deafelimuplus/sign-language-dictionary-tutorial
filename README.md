@@ -1,7 +1,7 @@
-# Build Sign Language Dictionary for Facebook Messenger using Wit.ai and Messenger API in Node.js
+# Build Sign Language Dictionary for Facebook Messenger using Messenger API in Node.js
 
 ## Overview
-In this tutorial, it shows you steps how to build Sign Language Dictionary using Messenger API in Node.js. It enables users to ask a word for sign language or definition of the word. You maybe check [Sign Language Dictionary Bot](https://www.messenger.com/t/SLDictionaryBot) on Facebook Messenger. See the below demo
+In this tutorial, it shows you steps how to build Sign Language Dictionary using Messenger API in Node.js. It enables users to ask a word for sign language or definition of the word. You maybe check and try it out [Sign Language Dictionary Bot](https://www.messenger.com/t/SLDictionaryBot) on Facebook Messenger. See the below demo
 
 ![Sign Language Dictionary Demo](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/demoSignLanguageDictionary.gif)
 
@@ -10,7 +10,6 @@ In this tutorial, it shows you steps how to build Sign Language Dictionary using
 * Have or Create Firebase project
 * Create a [Facebook page](https://www.facebook.com/pages/create)
 * Create [Facebook Developer Account](https://developers.facebook.com)
-* Create a [Wit.ai](https://wit.ai) account
 * Download and install [Visual Studio Code](https://code.visualstudio.com/)
 * Download [Node.js and npm](https://nodejs.org/en/)
 * Install [yarn](https://yarnpkg.com/getting-started/install)
@@ -59,7 +58,7 @@ npm install -g yarn
 ```
 $ firebase deploy --only functions
 ```
-2. In your terminal or Visual Studio Code, you should see a line like the following:
+2. In your **Terminal** or **Visual Studio Code**, you should see a line like the following:
 ```
 Function URL (helloWorld): https://us-central1-MY_PROJECT_NAME.cloudfunctions.net/helloWorld
 ```
@@ -90,18 +89,18 @@ exports.webhook_messenger = functions.https.onRequest((req,res) => {
                     if(webhook_events.messaging){
                         return webhook_events.messaging.map(messaging => {
                             console.log('webhook_messenger:messaging',JSON.stringify(messaging));
-                        }
-                    } else {
-                        console.log('webhook_messenger:messaging', 'Unknown error');
-                    }
+                            // Return a '200 OK' response to all requests
+                            return res.status(200).send('EVENT_RECEIVED');
+                        });
+                    } 
 
+                    console.log('webhook_messenger:messaging', 'Unknown error');
                     // Return a '200 OK' response to all requests
                     return res.status(200).send('EVENT_RECEIVED');
-
-                };
+                });
             } else {
                 // Return a '404 Not Found' if event is not from a page subscription
-                res.sendStatus(404);
+                return res.sendStatus(404);
             }
          default:
             return res.status(405).send('Error: Not Allowed');
@@ -115,11 +114,14 @@ This code creates a **webhook_messenger** endpoint that accepts **POST** request
 
 ```node.js
 exports.webhook_messenger = functions.https.onRequest((req,res) => {
-    const body = req.body;
-    const method = req.method;
+    .
+    .
+    .
     
     // Your verify token. Should be a random string.
-    const VERIFY_TOKEN ='<YOUR_VERIFY_TOKEN>';
+    const VERIFY_TOKEN = '<YOUR_VERIFY_TOKEN>';
+    const PAGE_ACCESS_TOKEN = '<ACCESS_TOKEN>';
+    
     
     // Parse the query params
     const mode = req.query['hub.mode'];
@@ -141,32 +143,9 @@ exports.webhook_messenger = functions.https.onRequest((req,res) => {
                 }
             }
             return res.status(405).send('Not Allowed');
-        case 'POST':
-            //Checks this is an event from a page subscription
-            if(body.object === 'page'){
-                // Iterates over each entry - there may be multiple if batched
-                return body.entry.map( entry => {
-                    const webhook_events = entry;
-                    // Gets the message. entry.messaging is an array
-                    if(webhook_events.messaging){
-                        return webhook_events.messaging.map(messaging => {
-                            console.log('webhook_messenger:messaging',JSON.stringify(messaging));
-                            return res.end();
-                        });
-                    } else {
-                        console.log('webhook_fb:messaging', 'Unknown error');
-                    }
-
-                    // Return a '200 OK' response to all requests
-                    return res.status(200).send('EVENT_RECEIVED');
-
-                });
-            } else {
-                // Return a '404 Not Found' if event is not from a page subscription
-                return res.sendStatus(404);
-            }
-         default:
-            return res.status(405).send('Error: Not Allowed');
+        .
+	.
+	.
     }
     
 });
@@ -268,13 +247,21 @@ To test that your app set up was successful, go to **Messenger** and send a mess
 	    // Return a '200 OK' response to all requests
 	    //return res.status(200).send('EVENT_RECEIVED');
 
+	    let response={
+		text:`Received message: ${messaging.message.text}`
+	    };
+
 	    if(messaging.message.text){
-		return messenger.callSendAPI(PAGE_ACCESS_TOKEN,sender_psid,messaging.message.text).then(() => {
+		return messenger.callSendAPI(PAGE_ACCESS_TOKEN,sender_psid,response).then(() => {
 		    return res.end();
 		});
 	    }
 
-	    return messenger.callSendAPI(PAGE_ACCESS_TOKEN,sender_psid,'Please send me text only').then(() => {
+	    response={
+		text:`Please send me text only`
+	    };
+
+	    return messenger.callSendAPI(PAGE_ACCESS_TOKEN,sender_psid,response).then(() => {
 		return res.end();
 	    });
 
@@ -284,10 +271,10 @@ To test that your app set up was successful, go to **Messenger** and send a mess
 .
 .
 ```
-2. Create a new file called messenger.js.
-3. Add the following lines to messenger.js. In this below code, we use Send API to send a message to the Messenger Platform. 
+2. Create a new file called **messenger.js**.
+3. Add the following lines to **messenger.js**. In this below code, we use [**Send API**](https://developers.facebook.com/docs/messenger-platform/reference/send-api/) to send a message to the Messenger Platform. 
 ```node.js
-const functions = require('firebase-functions');
+const fetch = require('node-fetch');
 const GRAPH_URL = "https://graph.facebook.com/v8.0";
 
 exports.callSendAPI = (page_access_token, sender_psid, response) => {
@@ -299,7 +286,7 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
             message:response
         };
 
-        fetch (`${GRAPH_URL}/me/messages?access_token=${page_access_token}`,{
+        return fetch (`${GRAPH_URL}/me/messages?access_token=${page_access_token}`,{
             method:'POST',
             headers:{
                 Accept:'application/json',
@@ -307,9 +294,9 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
             },
             body: JSON.stringify(request_body)
         }).then(res => res.json())
-        .then(() => {
+        .then( json => {
             console.log("callSendAPI:SendAPI "+sender_psid,"message sent!");
-            return resolve(next);
+            return resolve(json);
         }).catch(error => {
             console.error("callSendAPI:error",error);
 		    return reject(error);
@@ -317,10 +304,45 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
 	});
 };
 ```
-4. Test to send a first message and to get a response.
+
+4. Deploy functions `$ firebase deploy --only functions`
+5. Test to send a first message and to get a response.
 
 ![Test to send a message on Messenger](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/testSendMessenger.gif)
 
-5. Now you have seen how communications with Messenger work, write a code for looking up a word for sign language and then send a video to the Messenger app.
+6. Now you have seen how communications with Messenger work, write a code for looking up a word for sign language and then send a video to the [**Messenger app**](https://www.messenger.com/).
 	* Writing a code that sends a video if the word is found in the dictionary. If the word is not found, send a text.
+	* In **messenger.js** file, you will write your own code **how to search and send a video url to Facebook Messenger**. In the below code, it sends a video url.
+	
+	```
+	.
+	.
+	.
+	exports.signLanguageDictionary = (page_access_token, sender_psid,text) => {
+
+	    // Writing your code how to search a word and then send a video url to Facebook Messenger.
+	    .
+	    .
+	    .
+	    let response;
+    
+	    // if text(word) is not found in your dictionary, send the message to user via messenger.
+	    response={
+		text:`${text} is not found in the dictionary`
+	    };
+
+	    // if text is found in your dictionary, send a video url to a user via messenger.
+	    response={
+		attachment:{
+		    type:"video",
+		    payload:{
+			url:`${dictionary.media.video_link}`
+		    }
+		}
+	    };
+	    
+	    return this.callSendAPI(page_access_token, sender_psid, response);
+	};
+	```
+	* Test your dictionary bot if it is successful! If it works, you can connect your own **Facebook Page and Go live**!
 	

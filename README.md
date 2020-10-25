@@ -3,7 +3,7 @@
 ## Overview
 In this tutorial, it shows you steps how to build Sign Language Dictionary using Messenger API in Node.js. It enables users to ask a word for sign language or definition of the word. You maybe check and try it out [Sign Language Dictionary Bot](https://www.messenger.com/t/SLDictionaryBot) on Facebook Messenger. See the below demo
 
-![Sign Language Dictionary Demo](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/demoSignLanguageDictionary.gif)
+![Sign Language Dictionary Demo](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/demoSignLanguageDictionary.gif)
 
 ## Prerequisties
 * Basic knowledge of Node.js
@@ -195,19 +195,19 @@ Follow the steps [set up your Facebook App](https://developers.facebook.com/docs
 
 1. Go to your [Facebook Developer Account](https://developers.facebook.com/) and click **My Apps**
 2. Click **Create App** and select **Manage Business Integrations**
-![Create App](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/createAnApp.png)
+![Create App](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/createAnApp.png)
 3. Click **Continue**
 4. Enter **App Display Name, and App Contact Email**. See the below image
-![App Display Name](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/CreateAnApp2.png)
+![App Display Name](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/CreateAnApp2.png)
 5. Click **Create App**
 6. It takes you to Sign Language Dictionary app. Click **Set Up** button on Messenger
-![Set up Messenger](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/SetUpMessenger.png)
+![Set up Messenger](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/SetUpMessenger.png)
 7. In the **Webhooks** section, click **Add Callback URL**
 8. Enter the url `https://us-central1-MY_PROJECT_NAME.cloudfunctions.net/webhook_messenger` in the **Callback URL** field.
 9. Enter your verify token in the **Verify Token** field and then click **Verify and Save**.
-![Callback URL](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/editCallbackURL.png)
+![Callback URL](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/editCallbackURL.png)
 10. In the **Access Tokens** section, click **Add or Remove Pages** button and select a page you want to subscribe your app to. 
-![Add or Remove Pages](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/AddOrRemovePages.png)
+![Add or Remove Pages](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/AddOrRemovePages.png)
 11. Click **Generate Token**. *Make sure to copy and save the access token, it is needed to send messages using the [Send API](https://developers.facebook.com/docs/messenger-platform/reference/send-api/).
 12. Add the copied access token to index.js
 ```node.js
@@ -308,7 +308,7 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
 4. Deploy functions `$ firebase deploy --only functions`
 5. Test to send a first message and to get a response.
 
-![Test to send a message on Messenger](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/testSendMessenger.gif)
+![Test to send a message on Messenger](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/testSendMessenger.gif)
 
 6. Now you have seen how communications with Messenger work, write a code for looking up a word for sign language and then send a video to the [**Messenger app**](https://www.messenger.com/).
 	* Writing a code that sends a video if the word is found in the dictionary. If the word is not found, send a text.
@@ -375,5 +375,7 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
 	```
 	
 	* Test your dictionary bot if it is successful! If it works, you can connect your own **Facebook Page and Go live**!
+	
+	![DEP tutorial Demo](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/demoDepTutorial.gif)
 	
 ### Congratulations!! You have just finished building your first Sign Language Dictionary on Facebook Messenger!

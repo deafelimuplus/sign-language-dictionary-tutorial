@@ -314,7 +314,7 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
 	* Writing a code that sends a video if the word is found in the dictionary. If the word is not found, send a text.
 	* In **messenger.js** file, you will write your own code **how to search and send a video url to Facebook Messenger**. In the below code, it sends a video url.
 	
-	```
+	```node.js
 	.
 	.
 	.
@@ -344,6 +344,36 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
 	    return this.callSendAPI(page_access_token, sender_psid, response);
 	};
 	```
+	* In **index.js** file, replace the following code:
+	
+	```node.js
+	    let response={
+		text:`Received your message: ${messaging.message.text}`
+	    };
+
+	    if(messaging.message.text){
+		return messenger.callSendAPI(PAGE_ACCESS_TOKEN,sender_psid,response).then(() => {
+		    return res.end();
+		});
+	    }
+	```
+	
+	with this new code:
+	
+	```node.js
+	    if(messaging.message.text){
+
+		return messenger.signLanguageDictionary(PAGE_ACCESS_TOKEN, sender_psid, messaging.message.text).then(json => {
+		    console.log('webhook_messenger:signLanguageDictionary', JSON.stringify(json));
+		    return res.end();
+		}).catch(error => {
+		    console.error('webhook_messenger:signLanguageDictionary', error);
+		    return res.end();
+		});
+
+	    }
+	```
+	
 	* Test your dictionary bot if it is successful! If it works, you can connect your own **Facebook Page and Go live**!
 	
 ### Congratulations!! You have just finished building your first Sign Language Dictionary on Facebook Messenger!

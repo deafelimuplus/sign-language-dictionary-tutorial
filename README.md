@@ -224,7 +224,7 @@ exports.webhook_messenger = functions.https.onRequest((req,res) => {
 13. In the **Webhooks** section, click **Add Subscriptions** to select **messages** and **messaging_postbacks**.
 14. Click **Save**
 
-![Add Subscription fields](https://github.com/deafelimuplus/sign-language-dictionary/blob/main/images/subscriptionFields.png)
+![Add Subscription fields](https://github.com/deafelimuplus/sign-language-dictionary-tutorial/blob/main/images/subscriptionFields.png)
 
 ### Step 9: Test your app subscription
 

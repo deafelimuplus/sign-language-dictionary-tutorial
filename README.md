@@ -346,3 +346,4 @@ exports.callSendAPI = (page_access_token, sender_psid, response) => {
 	```
 	* Test your dictionary bot if it is successful! If it works, you can connect your own **Facebook Page and Go live**!
 	
+### Congratulations!! You have just finished building your first Sign Language Dictionary on Facebook Messenger!

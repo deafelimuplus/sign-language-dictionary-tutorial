@@ -1,4 +1,4 @@
-# Building Sign Language Dictionary Bot for Facebook Messenger in Node.js
+# Tutorial: Build Sign Language Dictionary Bot for Facebook Messenger in Node.js
 
 ## Overview
 In this tutorial, we will use [**Messenger Platform**](https://developers.facebook.com/docs/messenger-platform/) and [Cloud Functions for Firebase](https://firebase.google.com/docs/functions) to build Sign Language Dictionary Bot in Node.js. It enables users to ask a word for sign language or definition of the word. You can check and try it out [Sign Language Dictionary Bot](https://www.messenger.com/t/SLDictionaryBot) on Facebook Messenger. See the below demo

@@ -14,7 +14,7 @@ In this tutorial, we will use [**Messenger Platform**](https://developers.facebo
 * Download and install [Visual Studio Code](https://code.visualstudio.com/)
 * Download [Node.js and npm](https://nodejs.org/en/)
 * Install [yarn](https://yarnpkg.com/getting-started/install)
-* Install [the Firebase CLI](https://firebase.google.com/docs/cli) via npm
+* Install [the Firebase CLI](https://firebase.google.com/docs/cli) via yarn
 
 ## Getting Started
 
